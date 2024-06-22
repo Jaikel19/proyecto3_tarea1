@@ -17,9 +17,6 @@ public class CategoryRestController {
     @Autowired
     private CategoryRepository CategoryRepository;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
     @GetMapping
     @PreAuthorize("hasAnyRole('SUPER_ADMIN_ROLE')")
     public List<Category> getAllCategory() {

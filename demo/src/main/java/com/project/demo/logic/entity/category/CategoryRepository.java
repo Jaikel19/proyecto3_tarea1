@@ -9,8 +9,8 @@ import java.util.Optional;
 
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
-    @Query("SELECT u FROM User u WHERE LOWER(u.name) LIKE %?1%")
+    @Query("SELECT u FROM Category u WHERE LOWER(u.name) LIKE %?1%")
     List<Category> findCategoryWithCharacterInName(String character);
-    @Query("SELECT u FROM Product u WHERE u.name = ?1")
+    @Query("SELECT u FROM Category u WHERE u.name = ?1")
     Optional<Category> findByName(String name);
 }
