@@ -18,12 +18,13 @@ public class CategoryRestController {
     private CategoryRepository CategoryRepository;
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('SUPER_ADMIN_ROLE')")
+    @PreAuthorize("isAuthenticated()")
     public List<Category> getAllCategory() {
         return CategoryRepository.findAll();
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN_ROLE')")
     public Category addCategory(@RequestBody Category category) {
         return CategoryRepository.save(category);
     }
@@ -39,6 +40,7 @@ public class CategoryRestController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN_ROLE')")
     public Category updateCategory(@PathVariable Long id, @RequestBody Category category) {
         return CategoryRepository.findById(id)
                 .map(existingCategory -> {
@@ -53,6 +55,7 @@ public class CategoryRestController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN_ROLE')")
     public void deleteCategory(@PathVariable Long id) {
         CategoryRepository.deleteById(id);
     }

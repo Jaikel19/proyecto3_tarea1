@@ -25,12 +25,13 @@ public class ProductRestController {
     private CategoryRepository CategoryRepository;
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('SUPER_ADMIN_ROLE')")
+    @PreAuthorize("isAuthenticated()")
     public List<Product> getAllProducts() {
         return ProductRepository.findAll();
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN_ROLE')")
     public Product addProduct(@RequestBody Product product) {
         //asigna la categoria al producto, sino llega el objeto llega nulo menos el id
         CategoryRepository.findById(product.getCategory().getId()).ifPresent(product::setCategory);
@@ -48,6 +49,7 @@ public class ProductRestController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN_ROLE')")
     public Product updateProduct(@PathVariable Long id, @RequestBody Product product) {
         return ProductRepository.findById(id)
                 .map(existingProduct -> {
@@ -64,6 +66,7 @@ public class ProductRestController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN_ROLE')")
     public void deleteProduct(@PathVariable Long id) {
         ProductRepository.deleteById(id);
     }
